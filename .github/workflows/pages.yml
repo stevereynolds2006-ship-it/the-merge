@@ -1,4 +1,4 @@
-name: Deploy playable preview
+name: Publish gh-pages preview
 
 on:
   push:
@@ -6,19 +6,19 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: gh-pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
@@ -31,21 +31,18 @@ jobs:
           npm ci
           npm run build
           npx friendsdk build games/merge
-          mkdir -p "$GITHUB_WORKSPACE/preview"
-          cp -R games/merge/.friendsdk/. "$GITHUB_WORKSPACE/preview/"
-          touch "$GITHUB_WORKSPACE/preview/.nojekyll"
-      - uses: actions/configure-pages@v5
-        with:
-          enablement: true
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: preview
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          mkdir -p "$RUNNER_TEMP/preview"
+          cp -R games/merge/.friendsdk/. "$RUNNER_TEMP/preview/"
+          touch "$RUNNER_TEMP/preview/.nojekyll"
+      - name: Push preview to gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan gh-pages-temp
+          git rm -rf --quiet . || true
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+          cp -R "$RUNNER_TEMP/preview"/. .
+          git add -A
+          git commit -m "Publish The Merge playable preview"
+          git branch -M gh-pages
+          git push --force origin gh-pages
