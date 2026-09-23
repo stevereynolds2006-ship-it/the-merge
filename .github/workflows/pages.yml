@@ -1,0 +1,49 @@
+name: Deploy playable preview
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Build FriendSDK preview
+        run: |
+          git clone --depth 1 https://github.com/spokesz/friendsdk.git /tmp/friendsdk
+          mkdir -p /tmp/friendsdk/games/merge
+          cp -R game/. /tmp/friendsdk/games/merge/
+          cd /tmp/friendsdk
+          npm ci
+          npm run build
+          npx friendsdk build games/merge
+          mkdir -p "$GITHUB_WORKSPACE/preview"
+          cp -R games/merge/.friendsdk/. "$GITHUB_WORKSPACE/preview/"
+          touch "$GITHUB_WORKSPACE/preview/.nojekyll"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: preview
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
