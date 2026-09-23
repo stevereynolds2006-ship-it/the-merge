@@ -35,6 +35,8 @@ jobs:
           cp -R games/merge/.friendsdk/. "$GITHUB_WORKSPACE/preview/"
           touch "$GITHUB_WORKSPACE/preview/.nojekyll"
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: preview
