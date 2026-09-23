@@ -1,0 +1,15 @@
+{
+  "name": "The Merge",
+  "consumable": "Merge Pulse",
+  "price": "1000000000000000000",
+  "outcomes": [
+    { "name": "Static Echo", "chanceBps": 1500, "reward": "0" },
+    { "name": "Warm Handshake", "chanceBps": 3000, "reward": "250000000000000000" },
+    { "name": "Shared Memory", "chanceBps": 2200, "reward": "500000000000000000" },
+    { "name": "Twin Signal", "chanceBps": 1400, "reward": "750000000000000000" },
+    { "name": "Aligned Mind", "chanceBps": 900, "reward": "1500000000000000000" },
+    { "name": "Living Circuit", "chanceBps": 500, "reward": "2500000000000000000" },
+    { "name": "Singularity Bond", "chanceBps": 300, "reward": "5000000000000000000" },
+    { "name": "One Mind", "chanceBps": 200, "reward": "10000000000000000000" }
+  ]
+}
