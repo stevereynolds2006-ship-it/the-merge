@@ -1,0 +1,154 @@
+.merge-game {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  color: #e8ffe4;
+  background: #06110c;
+  font: 14px/1.45 "IBM Plex Mono", ui-monospace, monospace;
+}
+.merge-world { position: absolute; inset: 0; }
+.merge-hud {
+  position: absolute;
+  inset: 12px 14px auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 2;
+}
+.merge-hud span {
+  margin-right: auto;
+  background: rgba(6, 17, 12, 0.88);
+  color: #ccff00;
+  padding: 8px 10px;
+  border: 1px solid #ccff00;
+}
+.merge-hud button { pointer-events: auto; }
+.merge-game button,
+.merge-loading button {
+  font: inherit;
+  cursor: pointer;
+  padding: 9px 13px;
+  border: 2px solid #ccff00;
+  background: #06110c;
+  color: #ccff00;
+}
+.merge-game button:disabled { cursor: default; opacity: 0.45; }
+.merge-game button.rf-frame-primary,
+.merge-game button.merge-primary {
+  background: #ccff00;
+  color: #06110c;
+}
+.merge-hint {
+  position: absolute;
+  bottom: 48px;
+  left: 16px;
+  right: 16px;
+  margin: 0;
+  text-align: center;
+  background: rgba(6, 17, 12, 0.86);
+  color: #ccff00;
+  font-size: 11px;
+  pointer-events: none;
+  padding: 6px 8px;
+  border: 1px solid rgba(204, 255, 0, 0.35);
+}
+.merge-mobile-hint { display: none; }
+.merge-game table {
+  width: 100%;
+  text-align: left;
+  border-collapse: collapse;
+  margin: 14px 0;
+}
+.merge-game th,
+.merge-game td {
+  padding: 8px 4px;
+  border-bottom: 1px solid rgba(204, 255, 0, 0.25);
+}
+.merge-game label { display: block; margin: 16px 0; }
+.merge-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(204, 255, 0, 0.2);
+}
+.merge-item small { display: block; margin-top: 3px; opacity: 0.8; }
+.merge-reward { text-align: center; }
+.merge-reward .merge-mark {
+  display: block;
+  font-size: 42px;
+  letter-spacing: 0.2em;
+  color: #ccff00;
+  margin-bottom: 8px;
+}
+.merge-reward button { margin: 6px; }
+.merge-loading {
+  height: 100%;
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  background: #06110c;
+  color: #ccff00;
+}
+.merge-flavor {
+  font-size: 13px;
+  opacity: 0.88;
+}
+.merge-sync {
+  display: grid;
+  gap: 10px;
+  text-align: center;
+}
+.merge-sync-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.merge-beat {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ccff00;
+  background: transparent;
+}
+.merge-beat.on { background: #ccff00; }
+.merge-union {
+  position: absolute;
+  left: 16px;
+  bottom: 86px;
+  pointer-events: none;
+  font-size: 11px;
+  color: #ccff00;
+  background: rgba(6, 17, 12, 0.82);
+  border: 1px solid rgba(204, 255, 0, 0.35);
+  padding: 6px 8px;
+}
+.merge-scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 3px,
+    rgba(204, 255, 0, 0.035) 3px 4px
+  );
+  mix-blend-mode: screen;
+}
+@media (max-width: 520px) {
+  .merge-hud { inset: 8px 8px auto; gap: 5px; font-size: 10px; }
+  .merge-hud button { padding: 7px; }
+  .merge-hud span { padding: 6px; }
+  .merge-hint { bottom: 42px; font-size: 10px; }
+  .merge-mobile-hint { display: inline; }
+  .merge-desktop-hint { display: none; }
+  .merge-union { bottom: 78px; left: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .merge-scan { display: none; }
+}
